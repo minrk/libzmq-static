@@ -18,13 +18,14 @@ env:
   PREFIX: /tmp/zmq
   LIBSODIUM_VERSION: 1.0.21
   LIBZMQ_VERSION: 4.3.5
+  SCCACHE_CACHE_MULTIARCH: "1"
 
 jobs:
   build:
     container:
       image: ${{ matrix.image }}
     runs-on: ${{ matrix.os || 'ubuntu-22.04' }}
-    name: wheel-${{ matrix.name }}
+    name: ${{ matrix.name }}
 
     env:
       MACOSX_DEPLOYMENT_TARGET: "10.15"
