@@ -1,0 +1,45 @@
+ci:
+  autoupdate_schedule: monthly
+repos:
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 1.0.0  # Use the ref you want to point at
+    hooks:
+      - id: mdformat
+        # Optionally add plugins
+        additional_dependencies:
+          - mdformat-black
+          - mdformat-myst
+        exclude: LICENSE.md
+
+  # autoformat and lint Python code
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.4
+    hooks:
+      - id: ruff
+        types_or:
+          - python
+          - jupyter
+          - pyi
+        args: ["--fix", "--show-fixes"]
+      - id: ruff-format
+        types_or:
+          - python
+          - jupyter
+          - pyi
+
+  - repo: https://github.com/lovesegfault/beautysh
+    rev: v6.4.3
+    hooks:
+      - id: beautysh
+
+  - repo: https://github.com/ComPWA/taplo-pre-commit
+    rev: v0.9.3
+    hooks:
+      - id: taplo-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: check-executables-have-shebangs
+      - id: requirements-txt-fixer

@@ -1,0 +1,26 @@
+[project]
+name = "libzmq-static"
+authors = [
+  { name = "Min Ragan-Kelley" },
+]
+license = "BSD-3-Clause"
+requires-python = ">=3.11"
+
+description = "libzmq static builds for pyzmq wheels"
+readme = "README.md"
+
+[tool.beautysh]
+indent_size = 2
+# need check=False to apply changes
+check = false
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "UP",
+    "I",
+]
+ignore = [
+    "E501", # line length (formatter is responsible)
+]
