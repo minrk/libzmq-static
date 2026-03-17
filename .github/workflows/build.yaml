@@ -44,7 +44,7 @@ jobs:
 
       - name: build
         run: |
-          bash tools/install_libzmq.sh
+          bash install_libzmq.sh
 
       - uses: actions/upload-artifact@v7
         with:
