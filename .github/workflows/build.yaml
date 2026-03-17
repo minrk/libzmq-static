@@ -37,7 +37,7 @@ jobs:
             name: macos-universal
           - name: manylinux_2_28
             arch: x86_64
-            image: quay.io/repository/pypa/manylinux_2_28_x86_64
+            image: quay.io/pypa/manylinux_2_28_x86_64
 
     steps:
       - uses: actions/checkout@v6
