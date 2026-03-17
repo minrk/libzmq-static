@@ -65,13 +65,38 @@ jobs:
           path: "/tmp/zmq"
           if-no-files-found: error
   
-  # TODO: add builds to release
-  # github-release:
-  #   permissions:
-  #     contents: write
-  #   needs:
-  #     - builds
-  #   environment: release
-  #   runs-on: ubuntu-22.04
-  #   if: startsWith(github.ref, 'refs/tags/')
-  #   # TODO: add builds to release
+  list-artifacts:
+    permissions:
+      contents: write
+    needs:
+      - builds
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          skip-decompress: true
+      - run: |
+          ls -la dist/
+
+  github-release:
+    permissions:
+      contents: write
+    needs:
+      - builds
+    environment: release
+    runs-on: ubuntu-24.04
+    if: github.ref_type == 'tag'
+    # TODO: add builds to release
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          skip-decompress: true
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref.tag }}
+          target_commitish: ${{ github.sha }}
+          draft: true
+          files: |
+            dist/*
