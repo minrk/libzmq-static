@@ -8,7 +8,7 @@ PREFIX="${ZMQ_PREFIX:-/tmp/zmq}"
 LICENSE_DIR="$PREFIX/licenses"
 test -d "$LICENSE_DIR" || mkdir -p "$LICENSE_DIR"
 
-if [[ "$(uname)" == "Darwinx" ]]; then
+if [[ "$(uname)" == "Darwin" ]]; then
   SHLIB_EXT=".dylib"
   # make sure deployment target is set
   echo "${MACOSX_DEPLOYMENT_TARGET=}"
@@ -18,7 +18,7 @@ if [[ "$(uname)" == "Darwinx" ]]; then
   export LT_MULTI_MODULE=1
   ARCHS="x86_64 arm64"
   echo "building libzmq for mac ${ARCHS}"
-  export CXX="${CC:-clang++}"
+  export CXX="${CXX:-clang++}"
   for arch in ${ARCHS}; do
     # seem to need ARCH in CXX for libtool
     export CXX="${CXX} -arch ${arch}"
@@ -36,17 +36,17 @@ fi
 # add rpath so auditwheel patches it
 export LDFLAGS="${LDFLAGS} -Wl,-rpath,$PREFIX/lib"
 
-# curl -L -O "https://download.libsodium.org/libsodium/releases/libsodium-${LIBSODIUM_VERSION}-stable.tar.gz"
+curl -L -O "https://download.libsodium.org/libsodium/releases/libsodium-${LIBSODIUM_VERSION}-stable.tar.gz"
 
 curl -L -O "https://github.com/zeromq/libzmq/releases/download/v${LIBZMQ_VERSION}/zeromq-${LIBZMQ_VERSION}.tar.gz"
 
-# tar -xzf libsodium-${LIBSODIUM_VERSION}*.tar.gz
-# cd libsodium-*/
-# ./configure --prefix="$PREFIX"
-# make -j${CPU_COUNT}
-# make install
-# cp LICENSE "${LICENSE_DIR}/libsodium-LICENSE"
-# cd ..
+tar -xzf libsodium-${LIBSODIUM_VERSION}*.tar.gz
+cd libsodium-*/
+./configure --prefix="$PREFIX"
+make -j${CPU_COUNT}
+make install
+cp LICENSE "${LICENSE_DIR}/libsodium-LICENSE"
+cd ..
 
 which ldconfig && ldconfig || true
 
@@ -55,8 +55,7 @@ export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 
 tar -xzf zeromq-${LIBZMQ_VERSION}.tar.gz
 cd zeromq-${LIBZMQ_VERSION}
-cp COPYING "${LICENSE_DIR}/libzmq-COPYING"
-cp COPYING.LESSER "${LICENSE_DIR}/libzmq-COPYING.LESSER"
+cp LICENSE "${LICENSE_DIR}/libzmq-LICENSE"
 
 # avoid error on warning
 export CXXFLAGS="-Wno-error ${CXXFLAGS:-}"
