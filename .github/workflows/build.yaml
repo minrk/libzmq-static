@@ -70,7 +70,7 @@ jobs:
     permissions:
       contents: write
     needs:
-      - builds
+      - build
     steps:
       - uses: actions/download-artifact@v8
         with:
@@ -83,7 +83,7 @@ jobs:
     permissions:
       contents: write
     needs:
-      - builds
+      - build
     environment: release
     runs-on: ubuntu-24.04
     if: github.ref_type == 'tag'
