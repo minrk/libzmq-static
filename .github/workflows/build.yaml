@@ -55,7 +55,7 @@ jobs:
 
       - name: setup sccache
         run: |
-          test -d $SCCACHE_DIR || mkdir -p $SCCACHE_DIR
+          test -d $SCCACHE_DIR/preprocessor || mkdir -p ${SCCACHE_DIR}/preprocessor
           echo "SCCACHE_BASEDIRS=$PWD:$PREFIX"
           if [[ "$(uname)" == "Darwin" ]]; then
             echo "CXX=sccache clang++" >> ${GITHUB_ENV}
