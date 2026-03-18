@@ -42,7 +42,7 @@ curl -L -O "https://github.com/zeromq/libzmq/releases/download/v${LIBZMQ_VERSION
 
 tar -xzf libsodium-${LIBSODIUM_VERSION}*.tar.gz
 cd libsodium-*/
-./configure --prefix="$PREFIX"
+./configure --prefix="$PREFIX" || (cat config.log; exit 1)
 make -j${CPU_COUNT}
 make install
 cp LICENSE "${LICENSE_DIR}/libsodium-LICENSE"
