@@ -50,12 +50,11 @@ jobs:
           key: ${{ matrix.name }}
           path: ${{ env.SCCACHE_DIR }}
 
-      - name: Run sccache-cache
-        uses: mozilla-actions/sccache-action@v0.0.9
-
       - name: setup sccache
         run: |
-          test -d $SCCACHE_DIR/preprocessor || mkdir -p ${SCCACHE_DIR}/preprocessor
+          # use absolute path
+          # these affect sccache, must be before sccache-action
+          export SCCACHE_DIR=${PWD}/$SCCACHE_DIR
           echo "SCCACHE_BASEDIRS=$PWD:$PREFIX"
           if [[ "$(uname)" == "Darwin" ]]; then
             echo "CXX=sccache clang++" >> ${GITHUB_ENV}
@@ -64,6 +63,9 @@ jobs:
             echo "CXX=sccache g++" >> ${GITHUB_ENV}
             echo "CC=sccache gcc" >> ${GITHUB_ENV}
           fi
+
+      - name: Run sccache-cache
+        uses: mozilla-actions/sccache-action@v0.0.9
 
       - name: build
         run: |
