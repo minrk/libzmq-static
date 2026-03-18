@@ -54,8 +54,8 @@ jobs:
         run: |
           # use absolute path
           # these affect sccache, must be before sccache-action
-          export SCCACHE_DIR=${PWD}/$SCCACHE_DIR
-          echo "SCCACHE_BASEDIRS=$PWD:$PREFIX"
+          echo SCCACHE_DIR=${PWD}/$SCCACHE_DIR >> ${GITHUB_ENV}
+          echo "SCCACHE_BASEDIRS=$PWD:$PREFIX" >> ${GITHUB_ENV}
           if [[ "$(uname)" == "Darwin" ]]; then
             echo "CXX=sccache clang++" >> ${GITHUB_ENV}
             echo "CC=sccache clang" >> ${GITHUB_ENV}
